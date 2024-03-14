@@ -1,0 +1,48 @@
+﻿
+@model bikeRental.Application.Models.Order.OrderModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="container mx-4 pt-2">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <h2>Start with your order</h2>
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>   
+                <input type="hidden" asp-for="Customer.Id" />
+                <input type="hidden" asp-for="Customer.Email" />
+                <input type="hidden" asp-for="Customer.FirstName" />
+                <input type="hidden" asp-for="Customer.LastName" />
+                <input type="hidden" asp-for="Customer.Role" />
+                <input type="hidden" asp-for="Bicycle.Id"/>
+                <input type="hidden" asp-for="Bicycle.Price" />
+                <input type="hidden" asp-for="Bicycle.Type" />
+                <input type="hidden" asp-for="Bicycle.Description" />
+                <input type="hidden" asp-for="Bicycle.Status" />
+                <input type="hidden" asp-for="Bicycle.Station.Id" />
+                <input type="hidden" asp-for="Bicycle.Station.Address" />
+                <input type="hidden" asp-for="Bicycle.Station.lattitude" />
+                <input type="hidden" asp-for="Bicycle.Station.longitude" />
+                <input type="hidden" asp-for="RentalStartTime" />
+                <input type="hidden" asp-for="RentalEndTime" />
+                <input type="hidden" asp-for="RentalPrice" />
+               
+                <h4>Your renting time starts now! </h4>
+               
+                
+                <div class="form-group mt-3">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a class="btn btn-light" asp-controller="Bicycles" asp-action="GetByStation" asp-route-Id="@Model.Bicycle.Station.Id">Back to Full List</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

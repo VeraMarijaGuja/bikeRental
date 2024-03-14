@@ -1,0 +1,128 @@
+﻿@using bikeRental.Application;
+@using bikeRental.Application.Models.Bicycle;
+@using bikeRental.Core.Enums;
+@model PaginatedList<bikeRental.Application.Models.Bicycle.BicycleModel>
+
+@{
+	ViewData["Title"] = "Bicylces";
+    var filterString = ViewData["filterString"] as string;
+
+}
+
+
+
+<div class="container px-4 pt-2">
+	<h2>All Bicycles</h2>
+	<div class="container">
+		<div class="row justify-content-between">
+			<div class="col-8">
+				<form asp-controller="Bicycles" asp-action="Index" asp-route-searchString="@ViewData["searchString"]" method="get">
+					<div class="input-group">
+						<input type="text" placeholder="Start typing description…" name="SearchString" value="@ViewData["searchString"]" class="form-control" />
+                        <select class="form-select" aria-label="Example select with button addon" name="filterString">
+                            <option value="">All types</option>
+                            @foreach (var type in Enum.GetNames(typeof(BikeType)))
+                            {
+                                <option value="@type" selected="@(type == filterString)">@type</option>
+                            }
+                        </select>
+                        <div class="input-group-append">
+                             <a class="btn btn-light" asp-controller="Bicycles" asp-action="Index">
+								<i class="bi bi-x-lg"></i>
+							</a>
+							<button type="submit" class="btn btn-warning">Search <i class="bi bi-bicycle"></i></button>
+							<a class="btn btn-light" asp-controller="Stations" asp-action="Index">Back to stations</a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<table class="table table-hover mt-5">
+		<tr>
+			
+			@foreach (var prop in typeof(BicycleModel).GetProperties())
+			{
+                @if(prop.Name == "Station" || prop.Name == "Description")
+                {
+                   <th>
+                        @prop.Name
+                        <a style="color:black" asp-action="Index" value="@ViewData["sortOrder"]" asp-route-sortOrder=@($"{prop.Name}Desc")><i class="bi bi-caret-up-fill"></i></a>
+                        <a style="color:black" asp-action="Index" value="@ViewData["sortOrder"]" asp-route-sortOrder=@($"{prop.Name}")><i class="bi bi-caret-down-fill"></i></a>
+					</th>
+                }
+				else if (prop.Name != "Id" && prop.Name != "Orders")
+				{
+					<th>
+						@prop.Name
+					</th>
+				}
+                
+			}
+			@if (User.Identity!.IsAuthenticated && User.IsInRole("Administrator"))
+			{
+				<th>
+					Edit/Delete
+				</th>
+			}
+
+		</tr>
+		@foreach (var item in Model)
+		{
+
+			<tr>
+				<td>
+					@item.Station.Address
+				</td>
+				<td>
+					@item.Type
+				</td>
+				<td>
+					@item.Description
+				</td>
+				<td>
+					@item.Price
+				</td>
+                <td>
+                    @item.Status
+                </td>
+                @if (User.Identity!.IsAuthenticated && User.IsInRole("Administrator") && item.Status != BikeStatus.InUse)
+				{
+					<td>
+						<a class="btn btn-outline-primary" asp-controller="Bicycles" asp-action="Edit" asp-route-id="@item.Id" asp-route-stationId="@item.Station.Id" asp-route-cname="Index"><i class="bi bi-pen"></i></a>
+                        @if(item.Status != BikeStatus.Disabled)
+                        {
+                            <a class="btn btn-outline-danger" asp-controller="Bicycles" asp-action="Delete" asp-route-id="@item.Id" asp-route-stationId="@item.Station.Id" asp-route-cname="Index"><i class="bi bi-trash"></i></a>
+                        }                        
+					</td>
+				}
+			</tr>
+		}
+	</table>
+
+	@{
+		var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+		var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+	}
+
+    <a asp-action="Index"
+        asp-controller="Bicycles"
+       asp-route-searchString="@ViewData[""]"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-filterString="@ViewData["filterString"]"
+       asp-route-sortOrder="@ViewData["sortOrder"]"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+        asp-controller="Bicycles"
+       asp-route-searchString="@ViewData["searchString"]"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-filterString="@ViewData["filterString"]"
+       asp-route-sortOrder="@ViewData["sortOrder"]"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>
+

@@ -1,0 +1,52 @@
+﻿version: '3.4'
+name: bike-rental
+services:
+  
+  bikerental.api:
+    container_name: bikerentalAPI
+    image: ${DOCKER_REGISTRY-}bikerentalapi
+    build:
+      context: .
+      dockerfile: src/bikeRental.API/Dockerfile
+    environment:
+       CONNECTION_STRING: "Host=postgres;Port=5432;Database=postgres;Username=admin;Password=root;Integrated Security=true;Pooling=true;"
+
+  bikerental.frontend:
+    container_name: bikerentalFRONTEND
+    image: ${DOCKER_REGISTRY-}bikerentalfrontend
+    build:
+        context: .
+        dockerfile: src/bikeRental.Frontend/Dockerfile
+    environment:
+        CONNECTION_STRING: "Host=postgres;Port=5432;Database=postgres;Username=admin;Password=root;Integrated Security=true;Pooling=true;"
+
+  postgres:
+    container_name: postgresDB
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin4:
+    container_name: pgAdmin
+    image: dcagatay/pwless-pgadmin4:latest
+    depends_on:
+      - postgres
+    ports:
+      - 15432:80
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+      # POSTGRES_HOST: "postgres"
+      # POSTGRES_PORT: "5432"
+      # POSTGRES_DB: "*"
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

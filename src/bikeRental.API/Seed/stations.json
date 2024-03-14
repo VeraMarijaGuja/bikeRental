@@ -1,0 +1,126 @@
+﻿[
+  {
+    "Address": "Kopilica ul., 21000 Split",
+    "lattitude": 43.515938,
+    "longitude": 16.448714,
+    "Bicycles": [
+      {
+        "Type": "Electric",
+        "Description": "VIVI 26 Inch Electric Mountain Bike",
+        "Price": 7.22,
+        "Status": "Available"
+      },
+      {
+        "Type": "Electric",
+        "Description": "MYATU E-Bike 20 Inch Electric Bicycle",
+        "Price": 7.68,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "Hiland mountain bike MTB",
+        "Price": 5.53,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "Tretwerk - Mountain Bike",
+        "Price": 4.90,
+        "Status": "Available"
+      }
+    ]
+  },
+  {
+    "Address": "Trg dr. Franje Tuđmana, 21000 Split",
+    "lattitude": 43.508638,
+    "longitude": 16.437797,
+    "Bicycles": [
+      {
+        "Type": "Electric",
+        "Description": "VIVI 26 Inch Electric Mountain Bike",
+        "Price": 7.22,
+        "Status": "Available"
+      },
+      {
+        "Type": "Electric",
+        "Description": "YYG E-Bike Electric Bicycle",
+        "Price": 7.76,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "Tretwerk - Mountain Bike",
+        "Price": 4.90,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "RibasuBB 26 Inch",
+        "Price": 5.20,
+        "Status": "Available"
+      }
+    ]
+  },
+  {
+    "Address": "Šetalište Petra Preradovića 9-7, 21000 Split",
+    "lattitude": 43.508146,
+    "longitude": 16.441943,
+    "Bicycles": [
+      {
+        "Type": "Electric",
+        "Description": "YYG E-Bike Electric Bicycle",
+        "Price": 7.76,
+        "Status": "Available"
+      },
+      {
+        "Type": "Electric",
+        "Description": "VIVI 26 Inch Electric Mountain Bike",
+        "Price": 7.22,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "Tretwerk - Mountain Bike",
+        "Price": 4.90,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "RibasuBB 26 Inch",
+        "Price": 5.20,
+        "Status": "Available"
+      }
+    ]
+  },
+  {
+    "Address": "Šetalište Ivana Meštrovića 1, 21000 Split",
+    "lattitude": 43.512477,
+    "longitude": 16.428212,
+    "Bicycles": [
+      {
+        "Type": "Electric",
+        "Description": "YYG E-Bike Electric Bicycle",
+        "Price": 7.76,
+        "Status": "Available"
+      },
+      {
+        "Type": "Electric",
+        "Description": "VIVI 26 Inch Electric Mountain Bike",
+        "Price": 7.22,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "RibasuBB 26 Inch",
+        "Price": 5.20,
+        "Status": "Available"
+      },
+      {
+        "Type": "Acoustic",
+        "Description": "Tretwerk - Mountain Bike",
+        "Price": 4.90,
+        "Status": "Available"
+      }
+    ]
+  }
+]

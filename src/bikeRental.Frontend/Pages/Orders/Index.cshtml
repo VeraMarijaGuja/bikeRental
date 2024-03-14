@@ -1,0 +1,115 @@
+﻿@using bikeRental.Application;
+@using bikeRental.Application.Models.Order;
+@model PaginatedList<bikeRental.Application.Models.Order.OrderModel>
+
+
+@{
+    ViewData["Title"] = "Orders";
+    var dateFrom = ViewData["SearchDateFrom"] as string;
+    var dateTo = ViewData["SearchDateTo"] as string;
+    var sentDateTo = DateTime.MinValue.ToString("yyyy-MM-dd");
+    var sentDateFrom = DateTime.MinValue.ToString("yyyy-MM-dd");
+    if (dateFrom == DateTime.MinValue.ToString("yyyy-MM-dd") || dateTo == DateTime.MinValue.ToString("yyyy-MM-dd"))
+    {
+        dateFrom = DateTime.Now.ToString("yyyy-MM-dd");
+        dateTo = DateTime.Now.ToString("yyyy-MM-dd");
+
+    }
+    else
+    {
+        sentDateFrom = dateFrom;
+        sentDateTo = dateTo;
+    }
+}
+
+<div class="container px-4 pt-2">
+    <h2>All Orders</h2>
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-12">
+                <form asp-controller="Orders" asp-action="Index"  method="get">
+                    <div class="input-group">
+                        <label for="SearchDateFrom">Date from:</label>
+                        <input type="date" name="SearchDateFrom" id="SearchDateFrom" value="@dateFrom" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                        <label for="SearchDateTo">Date to:</label>
+                        <input type="date" name="SearchDateTo" id="SearchDateTo" value="@dateTo" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-warning">Search <i class="bi bi-bicycle"></i></button>
+                            <a class="btn btn-light" asp-action="Index">Back to Full List</a>
+                        </div>
+                    </div>
+                </form>
+            </div>            
+        </div>
+    </div>
+
+    <table class="table table-hover mt-5 ">
+        <tr>
+            @foreach (var prop in typeof(OrderModel).GetProperties())
+            {
+                @if (prop.Name != "Id")
+                {
+                    <th>
+                        @prop.Name
+                        @if (prop.Name != "Customer" && prop.Name!= "Bicycle")
+                        {   
+                            <a style="color:black" asp-action="Index" asp-route-sortOrder=@($"{prop.Name}Desc")><i class="bi bi-caret-up-fill"></i></a>
+                            <a style="color:black" asp-action="Index" asp-route-sortOrder=@($"{prop.Name}")><i class="bi bi-caret-down-fill"></i></a>
+                        }
+                    </th>
+                }
+            }
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                @if ((decimal)item.RentalPrice != (decimal)0.00)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentalStartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentalEndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RentalPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Customer.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Bicycle.Description)
+                    </td>
+                    
+                }
+                
+            </tr>
+        }
+    </table>
+
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-action="Index"
+       asp-controller="Orders"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-sortOrder="@ViewData["SortOrder"]"
+       asp-route-searchDateFrom="@sentDateFrom"
+       asp-route-searchDateTo="@sentDateTo"
+       class="btn btn-default @prevDisabled">
+        Previous
+    </a>
+    <a asp-action="Index"
+       asp-controller="Orders"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       asp-route-sortOrder="@ViewData["SortOrder"]"
+       asp-route-searchDateFrom="@sentDateFrom"
+       asp-route-searchDateTo="@sentDateTo"
+       class="btn btn-default @nextDisabled">
+        Next
+    </a>
+</div>
+

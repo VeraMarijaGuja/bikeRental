@@ -1,0 +1,81 @@
+﻿@model bikeRental.Application.Models.Bicycle.BicycleModel
+
+@{
+    ViewData["Title"] = "Delete";
+    var error = ViewData["ErrorMessage"] as string;
+}
+
+<div class="container mx-4 pt-2">
+	<div class="row justify-content-center">
+
+	<h3>Are you sure you want to delete bicycle?</h3>
+	<div>
+		<h4>Bicycle</h4>
+		<hr />
+		<dl class="row">
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Description)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Description)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Price)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Price)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Type)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Type)
+			</dd>
+			<dt class="col-sm-2">
+				@Html.DisplayNameFor(model => model.Status)
+			</dt>
+			<dd class="col-sm-10">
+				@Html.DisplayFor(model => model.Status)
+			</dd>
+		</dl>
+
+		<form asp-controller="Bicycles" asp-action="Delete" asp-route-id="@Model.Id" asp-route-stationId="@Model.Station.Id" asp-route-cname="@ViewData["cname"]" class="mt-4">
+			<input type="hidden" asp-for="@Model.Id" />
+			<input type="hidden" asp-for="@Model.Station.Id" />
+			<input type="submit" value="Delete" class="btn btn-danger" />
+				<a class="btn btn-light" asp-controller="Bicycles" asp-action="@ViewData["cname"]" asp-route-id="@Model.Station.Id">Back to Full List</a>
+		</form>
+	</div>
+	</div>
+</div>
+
+@if (!String.IsNullOrEmpty(error))
+{
+    <div class="modal fade show in" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ooops something went wrong...</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>@error</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-outline-success" asp-controller="Bicycles" asp-action="Disable" asp-route-id="@Model.Id" asp-route-cname="@ViewData["cname"]">Disable bicycle</a>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
